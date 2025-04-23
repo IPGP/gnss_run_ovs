@@ -3,8 +3,8 @@
 #
 #    Dependencies:
 #       - teqc (3rd party binary www.unavco.org, must be in $PATH)
-#       - raw2rinex (WebObs script located in the same directory)
-#       - download_orbit (WebObs script located in the same directory)
+#       - raw2rinex (companion script located in the same directory)
+#       - download_orbit (companion script)
 #       - the list of stations to process can be set in the .rc using NODES
 #         variable, or, using a local WebObs proc for node's list with FID
 #         parameter as station/marker code name for each node. Optionally,
@@ -13,10 +13,10 @@
 #               FID_ANTENNA: antenna code name
 #       - a station.info Gamit file can be added to overwrite Rinex headers
 #         with receiver/antenna codes (set STATION_INFO variable in .rc);
-#         needs stationinfo2json (WebObs script) and jq (JSON processor).
+#         needs stationinfo2json (companion script) and jq (JSON processor).
 #       - a directory of sitelogs can be added to overwrite Rinex headers with
 #         receiver/antenna/approx. position metadata (set SITELOG variable in
-#         .rc); needs sitelog2json (WebObs script) and jq (JSON processor).
+#         .rc); needs sitelog2json (companion script) and jq (JSON processor).
 #
 #    For all other parameters see the gnss_run_gipsyx.rc template.
 #
@@ -61,13 +61,12 @@ if [ $# -lt 2 ]; then
     echo "      Syntax: gnss_run_gipsyx CONF DAYS [options]"
     echo " Description: runs the automatic GNSS process from raw files to position solution"
     echo "   Arguments:"
-    echo "       CONF = configuration filename, e.g., /etc/webobs.d/gnss_run_gipsyx.rc"
+    echo "       CONF = configuration filename (see gnss_run_gipsyx_template.rc)"
     echo "       DAYS = number of days to process (from today)"
     echo "     Options:"
     echo "       -s \"STA1 STA2...\""
     echo "        station code or station list with double quotes"
-    echo "           default is all nodes associated with local WebObs $GRID proc name"
-    echo "        or a list of nodes $NODES defined in .rc"
+    echo "           default is all nodes defined in CONF variable NODES="
     echo "       -d \"yyyy/mm/dd,yyyy/mm/dd\""
     echo "        choose days to start process; the DAYS argument can still be used to"
     echo "        process previous days from the selected ones, for instance:"
@@ -181,7 +180,7 @@ if [ -z "$CM2CF" ]; then
     CM2CF=0
 fi
 
-echo "*** GipsyX / WebObs $GRID GNSS File Processing ***"
+echo "*** GipsyX / OVS GNSS File Processing ***"
 
 # Optional parameters
 for (( i=1; i<=$#; i++)); do
@@ -498,7 +497,7 @@ for station in $NODES; do
                 # 2) 1st awk to reorder the fields
                 # 3) 2nd awk to format the fields (issue when trying to  merge both awk)
                 # 4) Substitute the label field
-                # 5) Customize it with WebObs internal custom code
+                # 5) Customize it with internal custom code
                 #    NFtrs => Non Fiducial transformed
                 #    CF => Center-of-Figure
                 grep ".STA.[XYZ]" ${cov} | awk '{print $3,0,$4,$5,".Station."$2}' | awk '{printf "%9d %+22.15e %+22.15e %+22.15e %s\n",$1,$2,$3,$4,$5}' | sed "s/.STA./.State.Pos./g" | sed  "s/$/${label}/"   > $gipsyres

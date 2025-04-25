@@ -256,7 +256,7 @@ for station in $NODES; do
     fi
 
     for ymd in $DAYLIST; do
-
+        # $ymd has YYYY/MM/DD format (ex.: 2003/05/27)
         doy=$(date -d "$ymd" +"%j")
         sta=$(echo $FID | tr '[:upper:]' '[:lower:]')
         yyyy=${ymd:0:4}
@@ -265,6 +265,7 @@ for station in $NODES; do
         mm=${ymd:5:2}
         dd=${ymd:8:2}
         bb=$(date -d "$ymd" +"%b")
+        ymd_dash=$(date -d "$ymd" +"%Y-%m-%d")  # format YYYY-MM-DD required by sitelog2json PS & JBC 2025-04-25
         #rinex="$tmpdir/${sta}${doy}0.${yy}o"
         rinex="$tmpdir/${sta}${yyyy}${doy}.rnx" # non-conventionnal RNX name, can be 2 or 3 without confusion... 
         label="" # used in the tdp file to custom the parameter labels 
@@ -314,10 +315,10 @@ for station in $NODES; do
 
         # uses sitelogs to overwrite rinex header
         if [[ "$SITELOG" != "" ]]; then
-            receiver=$($PROGDIR/sitelog2json "$SITELOG" $FID $ymd|jq '.rt' | tr -d '"')
-            antenna=$($PROGDIR/sitelog2json "$SITELOG" $FID $ymd|jq '.at' | tr -d '"')
-            posxyz=$($PROGDIR/sitelog2json "$SITELOG" $FID $ymd|jq '.px' | tr -d '"')
-            alertheader="   sitelog: $FID @ $ymd - receiver = '$receiver' - antenna = '$antenna' (will use rinex header if empty)"
+            receiver=$($PROGDIR/sitelog2json "$SITELOG" $FID $ymd_dash|jq '.rt' | tr -d '"')
+            antenna=$($PROGDIR/sitelog2json "$SITELOG" $FID $ymd_dash|jq '.at' | tr -d '"')
+            posxyz=$($PROGDIR/sitelog2json "$SITELOG" $FID $ymd_dash|jq '.px' | tr -d '"')
+            alertheader="   sitelog: $FID @ $ymd_dash - receiver = '$receiver' - antenna = '$antenna' (will use rinex header if empty)"
             if [ ! -z "$receiver" ]; then
                 receiver=" -O.rt \"$receiver\""
             fi

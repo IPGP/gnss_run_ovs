@@ -1,5 +1,5 @@
 # gnssposflow
-Frontend shell programs to run GNSS processing.
+Frontend shell programs to run GNSS processing with GipsyX.  
 Written initially for volcano deformation monitoring, but designed to be polyvalent and ready-to-use.
 
 ## gnss_run_gipsyx

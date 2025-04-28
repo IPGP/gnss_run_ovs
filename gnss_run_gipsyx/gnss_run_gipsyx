@@ -1,24 +1,24 @@
 #!/bin/bash
-#    Script: gnss_run_gipsyx
+# Script: gnss_run_gipsyx
 #
-#    Dependencies:
-#       - teqc (3rd party binary www.unavco.org, must be in $PATH)
-#       - raw2rinex (companion script located in the same directory)
-#       - download_orbit (companion script)
-#       - the list of stations to process can be set in the .rc using NODES
-#         variable, or, using a local WebObs proc for node's list with FID
-#         parameter as station/marker code name for each node. Optionally,
-#         each node might contain the parameters (will overwrite Rinex header):
-#              FID_RECEIVER: receiver code name
-#               FID_ANTENNA: antenna code name
-#       - a station.info Gamit file can be added to overwrite Rinex headers
-#         with receiver/antenna codes (set STATION_INFO variable in .rc);
-#         needs stationinfo2json (companion script) and jq (JSON processor).
-#       - a directory of sitelogs can be added to overwrite Rinex headers with
-#         receiver/antenna/approx. position metadata (set SITELOG variable in
-#         .rc); needs sitelog2json (companion script) and jq (JSON processor).
+# Dependencies:
+#    - teqc (3rd party binary www.unavco.org, must be in $PATH)
+#    - raw2rinex (companion script located in the same directory)
+#    - download_orbit (companion script)
+#    - the list of stations to process can be set in the .rc using NODES
+#      variable, or, using a local WebObs proc for node's list with FID
+#      parameter as station/marker code name for each node. Optionally,
+#      each node might contain the parameters (will overwrite Rinex header):
+#           FID_RECEIVER: receiver code name
+#            FID_ANTENNA: antenna code name
+#    - a station.info Gamit file can be added to overwrite Rinex headers
+#      with receiver/antenna codes (set STATION_INFO variable in .rc);
+#      needs stationinfo2json (companion script) and jq (JSON processor).
+#    - a directory of sitelogs can be added to overwrite Rinex headers with
+#      receiver/antenna/approx. position metadata (set SITELOG variable in
+#      .rc); needs sitelog2json (companion script) and jq (JSON processor).
 #
-#    For all other parameters see the gnss_run_gipsyx.rc template.
+# For all other parameters see the gnss_run_gipsyx.rc template.
 #
 # Authors: François BEAUDUCEL, Edgar LENHOF, Patrice BOISSIER, Pierre SAKIC
 #

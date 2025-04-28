@@ -1,5 +1,6 @@
-# gnss_run_ovs
-Frontend shell programs to run GNSS processing
+# gnssposflow
+Frontend shell programs to run GNSS processing.
+Written initially for volcano deformation monitoring, but designed to be polyvalent and ready-to-use.
 
 ## gnss_run_gipsyx
 Simple bash scripts to run JPL/GipsyX software and produce routine automatic PPP daily solutions from GNSS observation archives.
@@ -34,7 +35,7 @@ To get help:
 ```
 
 ### Note
-Initial scripts have been developped as part of the [WebObs System](https://ipgp.github.io/webobs/) where you might find older versions. New scripts are fully independent from WebObs. It remains only the possibility to get list of stations from WebObs grid's nodes, and default solution file structure and syntax still corresponds to the WebObs GipsyX input data format.
+Initial scripts have been developed as part of the [WebObs System](https://ipgp.github.io/webobs/), where you might find older versions. New scripts are fully independent from WebObs. It remains only the possibility to get a list of stations from WebObs grid's nodes, andthe  default solution file structure and syntax still corresponds to the WebObs GipsyX input data format.
 
 ### Authors
 François BEAUDUCEL, Edgar LENHOF, Patrice BOISSIER, Pierre SAKIC

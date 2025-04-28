@@ -3,14 +3,19 @@
 #
 # Author: F. Beauducel <beauducel@ipgp.fr>
 # Created: 2021-03-15 in Yogyakarta
-# Updated: 2021-03-17
+# Updated: 2025-04-28
+#
+# * 2025-04-28 PS&JBC
+# now compatible with 9-char. site codes in sitelogs
+# w.r.t. IGS Ground Station Metadata Transition
+# https://igs.org/news/ground-station-metadata-transition/
 
 # Helper
 if [ $# -lt 2 ]; then
 	echo "      Syntax: sitelog2json FILE SITE [DATE]"
 	echo " Description: reads sitelog file(s) and returns data as JSON"
 	echo "   Arguments: FILE = path or filename(s) of sitelog(s)"
-	echo "              SITE = site code (4 characters)"
+	echo "              SITE = site code (4 or 9 characters)"
 	echo "              DATE = date as YYYY-MM-DD[Thh:mm] (default is current time)"
 	echo "     Outputs: JSON string with following fields:"
 	echo "              mo = monument site code (4 characters)"
@@ -37,6 +42,8 @@ fi
 # upper and lower case site code
 site=$(echo $2 | tr '[:upper:]' '[:lower:]')
 SITE=$(echo $2 | tr '[:lower:]' '[:upper:]')
+site=${site:0:4} 
+SITE=${SITE:0:4} 
 
 # selects the last sitelog file for the site
 if [ -d "$1" ]; then
@@ -44,14 +51,16 @@ if [ -d "$1" ]; then
 else
 	FILE=$(ls $1 | sort -t '_' -k 2 | tail -n1)
 fi
-if [[ -z "${FILE}" || -z "$(grep "Four Character ID.*: ${SITE}" ${FILE})" ]]; then
-	exit
+
+if [[ -z "${FILE}" || -z "$(egrep "(Four|Nine) Character ID.*: ${SITE}" ${FILE})" ]]; then
+    exit
 fi
 
 # makes the JSON string
 if [ ! -z "$FILE" ]; then
 	#******************* site *******************
-	JSON={\"mo\":\"${SITE}\"
+	JSON={\"mo\":\"$(sed -n "/^1\. /,/Character ID/p" ${FILE} | tail -n1 | sed -e 's/^.*: //g')\" # get 9 char code 
+	#JSON={\"mo\":\"${SITE}\" # get 4 char code 
 	#******************* Serial number *******************
 	JSON=$JSON,\"sn\":\"$(sed -n "/^1\. /,/Site Name/p" ${FILE} | tail -n1 | sed -e 's/^.*: //g')\"
 	#******************* Approximative position *******************

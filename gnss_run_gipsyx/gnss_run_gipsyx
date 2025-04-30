@@ -504,13 +504,13 @@ for station in $NODES; do
                 ### Non Fiducial orbit, a conversion gdcov > tdp must be done 
                 # this one-liner 
                 # 1) get the coordinates
-                # 2) 1st awk to reorder the fields
-                # 3) 2nd awk to format the fields (issue when trying to  merge both awk)
-                # 4) Substitute the label field
-                # 5) Customize it with internal custom code
+                # 2) 1st awk to reorder/reformat the fields
+                # 3) Substitute the label field
+                # 4) Customize it with internal custom code
                 #    NFtrs => Non Fiducial transformed
                 #    CF => Center-of-Figure
-                grep ".STA.[XYZ]" ${cov} | awk '{print $3,0,$4,$5,".Station."$2}' | awk '{printf "%9d %+22.15e %+22.15e %+22.15e %s\n",$1,$2,$3,$4,$5}' | sed "s/.STA./.State.Pos./g" | sed  "s/$/${label}/"   > $gipsyres
+                # old double awk:  awk '{print $3,0,$4,$5,".Station."$2}' | awk '{printf "%9d %+22.15e %+22.15e %+22.15e %s\n",$1,$2,$3,$4,$5}' 
+                grep ".STA.[XYZ]" ${cov} | awk '{printf "%9d %+22.15e %+22.15e %+22.15e .Station.%s\n", $3, 0, $4, $5, $2}' | sed "s/.STA./.State.Pos./g" | sed  "s/$/${label}/"   > $gipsyres
             fi
 
             if [ ! -z $TROP_TDP ]; then

@@ -17,6 +17,8 @@
 #    - a directory of sitelogs can be added to overwrite Rinex headers with
 #      receiver/antenna/approx. position metadata (set SITELOG variable in
 #      .rc); needs sitelog2json (companion script) and jq (JSON processor).
+#    - 7zip to save full logs (more efficient than classic tar.gz tarballs)
+#      on Debian-like: apt-get install 7zip
 #
 #    For all other parameters see the gnss_run_gipsyx.rc template.
 #
@@ -28,10 +30,10 @@
 # Updated: 2024-07-22
 #
 # **** Updates
-# ** 2023-06-xx Pierre Sakic 
+# ** 2023-06-xx PS
 # - Handles Non Fiducial Orbits + associated Helmert transfo. with NFORB=1
 #
-# ** 2023-08-07 Pierre Sakic 
+# ** 2023-08-07 PS
 # - Handles RINEX3
 # - custom temp. directory possible with $TMPDIRMAIN 
 # - Trivia note: flinn stands for
@@ -39,14 +41,14 @@
 #   JPL's GPS analysis was initially its contribution to the FLINN
 #   (Zumberge et al. 1994, https://hdl.handle.net/hdl:2014/32449)
 #
-# ** 2024-09-12 Pierre Sakic
+# ** 2024-09-12 PS
 # - implement full logs
 # 
-# ** 2025-03-10 Pierre Sakic
+# ** 2025-03-10 PS
 # - store full log in 7zip (easier to extract stuffs from it)
 # - add CM2CF option
 #
-# ** 2025-04-16 Pierre Sakic
+# ** 2025-04-16 PS
 # - add ANTEX option
 #
 #Check lock file

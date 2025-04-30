@@ -19,6 +19,8 @@
 #      .rc); needs sitelog2json (companion script) and jq (JSON processor).
 #    - 7zip to save full logs (more efficient than classic tar.gz tarballs)
 #      on Debian-like: apt-get install 7zip
+#    - US numbering style is required for awk. 
+#      on Debian-like: locale -a | grep en_US must returns en_US.utf8
 #
 #    For all other parameters see the gnss_run_gipsyx.rc template.
 #
@@ -87,6 +89,11 @@ if [ $# -lt 2 ]; then
     echo ""
     exit 0;
 fi
+
+# US-numbering style is highly recommended!
+LANG=en_US.UTF-8
+LC_ALL=en_US.UTF-8
+LC_NUMERIC=en_US.UTF-8
 
 # reads parameters from bash configuration script
 # variables that must be set: $GRID $FROM $DEST $GIPSYOPTIONS $TEQCOPTIONS

@@ -265,6 +265,7 @@ for station in $NODES; do
     fi
 
     for ymd in $DAYLIST; do
+        ERROR=""
         # $ymd has YYYY/MM/DD format (ex.: 2003/05/27)
         doy=$(date -d "$ymd" +"%j")
         sta=$(echo $FID | tr '[:upper:]' '[:lower:]')

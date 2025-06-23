@@ -208,7 +208,7 @@ for (( i=1; i<=$#; i++)); do
         ;;
        -force)
               FORCE=1
-              echo "Force computation despites final orbits already exist"
+              echo "Force computation despites final orbit results already exist"
         ;;
        -debug)
               DEBUG=1
@@ -344,7 +344,9 @@ for station in $NODES; do
 
         #if [[ $GO_CALC -eq 1 ]]; then # GO_CALC disabled for the moment
         echo "$alertheader"
-        rm -rf $tmpdir/*
+        if [[ ! -z "$tmpdir" && -d $tmpdir ]]; then
+            rm -rf $tmpdir/*
+        fi
         # makes Rinex daily file from raw data (see raw2rinex script)
         $PROGDIR/raw2rinex "$RAW" $rinex $TEQCOPTIONS -O.mn \"$FID\" -O.mo \"$FID\" $receiver $antenna $posxyz
         if [[ ! -z $VERBOSE || $? != 0 ]]; then

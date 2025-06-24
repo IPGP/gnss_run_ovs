@@ -556,7 +556,7 @@ done
 
 echo "*************************************"
 
-if [ $DEBUG -eq 0 ]; then
+if [[ $DEBUG -eq 0 && -d $tmpdir ]]; then
     rm -rf $tmpdir
 fi
 

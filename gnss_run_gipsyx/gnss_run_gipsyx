@@ -90,6 +90,13 @@ if [ $# -lt 2 ]; then
     exit 0;
 fi
 
+# A safety check to avoid potential nasty problems
+USAGE=$(df -h $HOME | awk 'NR==2 {print $5}' | tr -d '%')
+if [ "$USAGE" -ge 98 ]; then
+    echo "WARN: Home partition is ${USAGE}% full, I refuse to continue"
+    exit 2
+fi
+
 # US-numbering style is highly recommended!
 LANG=en_US.UTF-8
 LC_ALL=en_US.UTF-8
